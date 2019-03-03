@@ -1,7 +1,6 @@
 ---
 title: "Hello World"
 date: 2019-03-03T09:48:12Z
-draft: true
 ---
 
 Hello world, welcome to fieldnotes.tech!
