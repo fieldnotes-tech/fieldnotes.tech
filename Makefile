@@ -1,11 +1,12 @@
+SHELL := /usr/bin/env bash
 HUGO := hugo
 DATE := $(shell date)
-SHELL := /usr/bin/env bash
+KISS_THEME_REVISION := 55f6f0068e8304bf7ac848e68f918912bd8d5336
 
-.PHONY: publish commit build public clean-workspace
+.PHONY: publish commit public clean-workspace
 
 publish: commit
-	cd public && git push origin gh-pages
+	cd public && git push origin master
 
 commit: public
 	cd public && \
@@ -16,15 +17,11 @@ commit: public
 	fi
 
 public: clean-workspace
-	if [ -d $@ ]; then rm -rf $@; fi
-	if [ -f $@ ]; then echo "[ERR] ./$@ is a file."; exit 1; fi
-	mkdir $@
-	git worktree prune
-	rm -rf .git/worktrees/public
-	git worktree add -B gh-pages public origin/gh-pages
+	git submodule update --recursive --remote
+	cd themes/kiss && git reset --hard $(KISS_THEME_REVISION)
 	rm -rf $@/*
 	echo fieldnotes.tech > $@/CNAME
 	$(HUGO)
 
 clean-workspace:
-	[ -z "$(git status -s)" ] || { echo "[ERR] Workspace dirty."; exit 1; }
+	@if [ ! -z "$$(git status -s)" ]; then echo "[ERR] Workspace dirty."; exit 1; fi
