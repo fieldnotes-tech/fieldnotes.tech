@@ -23,6 +23,7 @@ public: clean-workspace
 	rm -rf .git/worktrees/public
 	git worktree add -B gh-pages public origin/gh-pages
 	rm -rf $@/*
+	echo fieldnotes.tech > $@/CNAME
 	$(HUGO)
 
 clean-workspace:
