@@ -1,0 +1,35 @@
+baseURL = "https://fieldnotes.tech"
+languageCode = "en-gb"
+title = "fieldnotes.tech"
+theme = "kiss"
+copyright = "&copy; Sam Salisbury 2019"
+disqusShortname = "fieldnotes-tech"
+Paginate = 10
+enableRobotsTXT = true
+
+[params.rss]
+includeContent = true
+authorName = "Sam Salisbury"
+authorEmail = "samsalisbury@gmail.com"
+
+[params.assets]
+customCSS = ["css/custom.css"]
+
+[params.info]
+enableSocial = true
+homeTitle = "fieldnotes.tech"
+related = true
+
+[params.features]
+disqusOnDemand = true
+
+[params.social]
+github = "samsalisbury"
+rss = "index.html"
+
+[params.social.config]
+platforms = ["github", "rss"]
+
+[taxonomies]
+tag = "tags"
+
