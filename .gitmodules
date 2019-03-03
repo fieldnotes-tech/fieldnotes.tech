@@ -1,3 +1,3 @@
-[submodule "themes/kiss"]
+[submodule "github.com/ribice/kiss"]
 	path = themes/kiss
 	url = git@github.com:ribice/kiss.git
