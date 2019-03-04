@@ -4,6 +4,7 @@ title = "fieldnotes.tech"
 theme = "kiss"
 copyright = "&copy; Sam Salisbury 2019"
 disqusShortname = "fieldnotes-tech"
+googleAnalytics = "UA-135580398-1"
 Paginate = 10
 enableRobotsTXT = true
 
