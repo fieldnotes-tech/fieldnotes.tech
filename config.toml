@@ -7,6 +7,7 @@ disqusShortname = "fieldnotes-tech"
 googleAnalytics = "UA-135580398-1"
 Paginate = 10
 enableRobotsTXT = true
+enableGitInfo = true
 
 [params.rss]
 includeContent = true
