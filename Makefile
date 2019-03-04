@@ -28,6 +28,7 @@ kiss-theme: submodules
 submodules:
 	git submodule add --force -b master git@github.com:fieldnotes-tech/fieldnotes-tech.github.io public
 	git config submodule.public.ignore all
+	git reset public/
 	git submodule update --recursive --remote
 
 clean-workspace:
