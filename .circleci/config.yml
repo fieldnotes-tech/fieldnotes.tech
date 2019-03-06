@@ -6,13 +6,14 @@ jobs:
       - image: cibuilds/hugo:0.54.0
     working_directory: ~/project
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "63:51:be:57:ad:c1:aa:97:62:14:53:4c:11:6c:14:ba"
       - run: git version
       - run: mkdir -p ~/.ssh
       - run: echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
-      - run: if [ "$SSH_PRIVATE_KEY" != "" ]; then echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa; fi
-      - run: chmod 600 ~/.ssh/id_rsa 
+      - run: '[ -z "$SSH_PRIVATE_KEY" ] || { echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa; }'
       - run: git clone git@github.com:fieldnotes-tech/fieldnotes.tech ~/project
-      - run: git status
       - run:
           name: "Build"
           command: make public
