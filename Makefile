@@ -2,13 +2,12 @@ SHELL := /usr/bin/env bash
 HUGO := hugo -v
 DATE := $(shell date)
 DOMAIN := fieldnotes.tech
-KISS_THEME_REVISION := 55f6f0068e8304bf7ac848e68f918912bd8d5336
 ALLOW_DIRTY ?= NO
 
 # SSH_PRIVATE_KEY used for local testing of circleci.
 SSH_PRIVATE_KEY_FILE ?= ~/.ssh/fieldnotes-tech-rsa
 
-.PHONY: publish commit public kiss-theme submodules clean-workspace
+.PHONY: publish commit public submodules clean-workspace
 
 publish: commit
 	cd public && git push origin master
@@ -21,13 +20,10 @@ commit: public
 		git add -A && git commit -m "publish: $(DATE)"; \
 	fi
 
-public: clean-workspace submodules kiss-theme
+public: clean-workspace submodules
 	rm -rf $@/*
 	echo $(DOMAIN) > $@/CNAME
 	$(HUGO)
-
-kiss-theme: submodules
-	cd themes/kiss && git reset --hard $(KISS_THEME_REVISION)
 
 submodules:
 	git submodule add --force -b master git@github.com:fieldnotes-tech/fieldnotes-tech.github.io public
