@@ -4,6 +4,8 @@ DATE := $(shell date)
 DOMAIN := fieldnotes.tech
 ALLOW_DIRTY ?= NO
 
+PUBLIC_REPO ?= git@github.com:fieldnotes-tech/fieldnotes-tech.github.io
+
 # SSH_PRIVATE_KEY used for local testing of circleci.
 SSH_PRIVATE_KEY_FILE ?= ~/.ssh/fieldnotes-tech-rsa
 
@@ -26,7 +28,7 @@ public: clean-workspace submodules
 	$(HUGO)
 
 submodules:
-	git submodule add --force -b master git@github.com:fieldnotes-tech/fieldnotes-tech.github.io public
+	git submodule add --force -b master $(PUBLIC_REPO) public
 	git config submodule.public.ignore all
 	git reset public/
 	git submodule update --recursive --remote
