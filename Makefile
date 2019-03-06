@@ -1,5 +1,5 @@
 SHELL := /usr/bin/env bash
-HUGO := hugo
+HUGO := hugo -v
 DATE := $(shell date)
 DOMAIN := fieldnotes.tech
 KISS_THEME_REVISION := 55f6f0068e8304bf7ac848e68f918912bd8d5336
