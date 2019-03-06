@@ -3,6 +3,7 @@ HUGO := hugo -v
 DATE := $(shell date)
 DOMAIN := fieldnotes.tech
 KISS_THEME_REVISION := 55f6f0068e8304bf7ac848e68f918912bd8d5336
+ALLOW_DIRTY ?= NO
 
 .PHONY: publish commit public kiss-theme submodules clean-workspace
 
@@ -23,7 +24,7 @@ public: clean-workspace submodules kiss-theme
 	$(HUGO)
 
 kiss-theme: submodules
-	cd themes/kiss && git reset --hard $(KISS_THEME_REVISION)
+	cd themes/kiss # && git reset --hard $(KISS_THEME_REVISION)
 
 submodules:
 	git submodule add --force -b master git@github.com:fieldnotes-tech/fieldnotes-tech.github.io public
@@ -32,4 +33,7 @@ submodules:
 	git submodule update --recursive --remote
 
 clean-workspace:
-	@if [ ! -z "$$(git status -s)" ]; then echo "[ERR] Workspace dirty."; exit 1; fi
+	@if [ $(ALLOW_DIRTY) != YES ] && [ ! -z "$$(git status -s)" ]; then echo "[ERR] Workspace dirty."; exit 1; fi
+
+test-circleci:
+	circleci local execute --skip-checkout=true -e SSH_PRIVATE_KEY="$$(<~/.ssh/fieldnotes-tech-rsa)"
