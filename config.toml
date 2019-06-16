@@ -1,6 +1,6 @@
 baseURL = "https://fieldnotes.tech"
 languageCode = "en-gb"
-title = "fieldnotes.tech"
+title = "📒 fieldnotes.tech"
 theme = "kiss"
 copyright = "&copy; Sam Salisbury 2019"
 disqusShortname = "fieldnotes-tech"
