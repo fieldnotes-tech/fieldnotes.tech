@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build:
+  build_and_publish:
     docker:
       - image: cibuilds/hugo:0.54.0
     working_directory: ~/project
@@ -22,8 +22,11 @@ jobs:
       - run:
           name: "Build"
           command: make public
+      - run:
+          name: "Publish"
+          command: make publish
 
 workflows:
   publish:
     jobs:
-      - build
+      - build_and_publish
