@@ -6,10 +6,12 @@ ALLOW_DIRTY ?= NO
 
 PUBLIC_REPO ?= git@github.com:fieldnotes-tech/fieldnotes-tech.github.io
 
+SOURCE := $(shell find . -type f -not -path './.git/*' -not -path './public/*')
+
 # SSH_PRIVATE_KEY used for local testing of circleci.
 SSH_PRIVATE_KEY_FILE ?= ~/.ssh/fieldnotes-tech-rsa
 
-.PHONY: publish commit public submodules clean-workspace
+.PHONY: publish commit submodules clean-workspace
 
 publish: commit
 	cd public && git push origin master
@@ -22,10 +24,13 @@ commit: public
 		git add -A && git commit -m "publish: $(DATE)"; \
 	fi
 
-public: clean-workspace submodules
+public: $(SOURCE) 
 	rm -rf $@/*
 	echo $(DOMAIN) > $@/CNAME
 	$(HUGO)
+
+build: clean-workspace submodules
+	$(MAKE) public
 
 submodules:
 	git submodule add --force -b master $(PUBLIC_REPO) public
