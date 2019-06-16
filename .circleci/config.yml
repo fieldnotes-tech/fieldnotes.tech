@@ -5,25 +5,34 @@ jobs:
     docker:
       - image: cibuilds/hugo:0.54.0
     working_directory: ~/project
+    shell: /usr/bin/env bash -euo pipefail
     steps:
       - add_ssh_keys:
           fingerprints:
             - "63:51:be:57:ad:c1:aa:97:62:14:53:4c:11:6c:14:ba"
       - run:
-          name: Clone
+          name: Configure Git & SSH
           command: |
-            set -euo pipefail
             git version
-            mkdir -p ~/.ssh
-            GITHUB_PUBLIC_SSH_KEY='AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=='
+            git config --global user.email samsalisbury@gmail.com
+            git config --global user.name "Sam Salisbury (via CircleCI)" 
+            [ -d ~/.ssh ] || mkdir -p ~/.ssh
+            GITHUB_PUBLIC_SSH_KEY=AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
             echo "github.com ssh-rsa $GITHUB_PUBLIC_SSH_KEY" >> ~/.ssh/known_hosts
-            [ "${SSH_PRIVATE_KEY:-x}" = x ] || { echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa; }
-            git clone git@github.com:fieldnotes-tech/fieldnotes.tech ~/project
+            # The following section only exists for local testing, to work around
+            # a bug in the 'circleci local execute' command where it does not pass through
+            # the private key despite setting the appropriate flag.
+            [ "${SSH_PRIVATE_KEY:-x}" = x ] || {
+              echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+            }
       - run:
-          name: "Build"
+          name: Clone
+          command: git clone git@github.com:fieldnotes-tech/fieldnotes.tech ~/project
+      - run:
+          name: Build
           command: make public
       - run:
-          name: "Publish"
+          name: Publish
           command: make publish
 
 workflows:
