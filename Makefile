@@ -8,7 +8,12 @@ PUBLIC_REPO ?= git@github.com:fieldnotes-tech/fieldnotes-tech.github.io
 
 SOURCE := $(shell find . -type f -not -path './.git/*' -not -path './public/*')
 
-.PHONY: publish commit submodules clean-workspace test validate-circleci
+.PHONY: clean publish commit submodules clean-workspace test validate-circleci
+
+default: publish
+
+clean:
+	rm -rf .gitmodules .git/modules/public public
 
 publish: commit
 	cd public && git push origin master
@@ -29,11 +34,21 @@ public: $(SOURCE)
 build: clean-workspace submodules
 	$(MAKE) public
 
+EXCLUDE := .git/info/exclude
+
+$(EXCLUDE): Makefile
+	[ -f $@ ] || touch $@
+	grep -E $@ '^.gitmodules$$' || echo .gitmodules >> $(EXCLUDE)
+
 submodules:
+	mv $(EXCLUDE) $(EXCLUDE).not
 	git submodule add --force -b master $(PUBLIC_REPO) public
 	git config submodule.public.ignore all
 	git reset public/
 	git submodule update --recursive --remote
+	git reset .gitmodules
+	mv $(EXCLUDE).not $(EXCLUDE)
+
 
 clean-workspace:
 	@if [ $(ALLOW_DIRTY) != YES ] && [ -n "$$(git status -s)" ]; then echo "[ERR] Workspace dirty."; exit 1; fi
