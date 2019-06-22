@@ -8,12 +8,15 @@ PUBLIC_REPO ?= git@github.com:fieldnotes-tech/fieldnotes-tech.github.io
 
 SOURCE := $(shell find . -type f -not -path './.git/*' -not -path './public/*')
 
-.PHONY: clean publish commit submodules clean-workspace test validate-circleci
+.PHONY: clean clean-submodules publish commit submodules clean-workspace test validate-circleci
 
 default: publish
 
-clean:
+clean-submodules:
 	rm -rf .gitmodules .git/modules/public public
+
+clean:
+	rm -rf public/*
 
 publish: commit
 	cd public && git push origin master
