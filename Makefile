@@ -8,10 +8,7 @@ PUBLIC_REPO ?= git@github.com:fieldnotes-tech/fieldnotes-tech.github.io
 
 SOURCE := $(shell find . -type f -not -path './.git/*' -not -path './public/*')
 
-# SSH_PRIVATE_KEY used for local testing of circleci.
-SSH_PRIVATE_KEY_FILE ?= ~/.ssh/fieldnotes-tech-rsa
-
-.PHONY: publish commit submodules clean-workspace
+.PHONY: publish commit submodules clean-workspace test validate-circleci
 
 publish: commit
 	cd public && git push origin master
@@ -41,8 +38,8 @@ submodules:
 clean-workspace:
 	@if [ $(ALLOW_DIRTY) != YES ] && [ -n "$$(git status -s)" ]; then echo "[ERR] Workspace dirty."; exit 1; fi
 
-test: test-circleci
+test: validate-circleci
 	@echo "All tests passed."
 
-test-circleci:
-	circleci local execute -e SSH_PRIVATE_KEY="$$(<$(SSH_PRIVATE_KEY_FILE))"
+validate-circleci:
+	circleci config validate
