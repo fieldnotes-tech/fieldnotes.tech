@@ -40,12 +40,14 @@ jobs:
             STATUS=nothing
             COUNT=0
             export PUBLIC_SHA=$(cd public && git rev-parse HEAD)
+            echo -n "Waiting for GitHub pages build to finish."
             until [ $STATUS = built ] || [ $STATUS = errored ] || [ $COUNT = 60 ]; do
               sleep 1
               COUNT=$((COUNT+1))
               STATUS=$(curl -sfu $GITHUB_USER:$GITHUB_API_TOKEN $URL \
               | jq -r ".[] | select(.commit == env.PUBLIC_SHA) | .status")
               [ -n "$STATUS" ] || STATUS=nothing
+              echo -n .
             done
             if [ $STATUS != built ]; then
               echo "Failed: final status from github was '$STATUS'"
