@@ -39,12 +39,12 @@ jobs:
             URL="https://api.github.com/repos/fieldnotes-tech/fieldnotes-tech.github.io/pages/builds?per_page=3"
             STATUS=nothing
             COUNT=0
-            SHA=$(cd public && git rev-parse HEAD)
+            export PUBLIC_SHA=$(cd public && git rev-parse HEAD)
             until [ $STATUS = built ] || [ $STATUS = errored ] || [ $COUNT = 60 ]; do
               sleep 1
               COUNT=$((COUNT+1))
               STATUS=$(curl -sfu $GITHUB_USER:$GITHUB_API_TOKEN $URL \
-              | jq -r ".[] | select(.commit == env.CIRCLE_SHA1)" | .status)
+              | jq -r ".[] | select(.commit == env.PUBLIC_SHA) | .status")
               [ -n "$STATUS" ] || STATUS=nothing
             done
             if [ $STATUS != built ]; then
