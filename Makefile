@@ -29,7 +29,7 @@ commit: public
 		git add -A && git commit -m "publish: $(DATE)"; \
 	fi
 
-public: $(SOURCE) 
+public: $(SOURCE)
 	rm -rf $@/*
 	echo $(DOMAIN) > $@/CNAME
 	$(HUGO)
@@ -56,8 +56,13 @@ submodules:
 clean-workspace:
 	@if [ $(ALLOW_DIRTY) != YES ] && [ -n "$$(git status -s)" ]; then echo "[ERR] Workspace dirty."; exit 1; fi
 
-test: validate-circleci
+test: validate-circleci validate-theme
 	@echo "All tests passed."
 
 validate-circleci:
-	circleci config validate
+	@echo "==> Checking CircleCI config is valid."
+	@circleci config validate
+
+validate-theme:
+	@echo "==> Checking site theme and content are valid."
+	@hugo --quiet
