@@ -10,7 +10,7 @@ jobs:
       - run:
           name: Install Dependencies
           shell: /bin/sh # Until this is run, we don't have bash.
-          command: apk add bash make git openssh curl hugo jq
+          command: apk add --no-progress bash make git openssh curl hugo jq
       - add_ssh_keys:
           fingerprints:
             - "00:b6:0c:6b:77:f4:08:7e:06:0f:81:b2:43:09:2b:11"
