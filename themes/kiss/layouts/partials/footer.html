@@ -4,6 +4,9 @@
     {{ if .IsPage }}
       | <a href="https://github.com/fieldnotes-tech/fieldnotes.tech/commit/{{ .GitInfo.Hash }}">{{ .GitInfo.AbbreviatedHash }}</a></p>
     {{ end }}
+    {{ is .IsHome }}
+    | Last build: {{ now.UTC }}
+    {{ end }}
     {{if .Site.Params.Info.poweredby}}
       <p>Powered by <a href="https://gohugo.io/">Hugo</a> &amp; <a href="https://github.com/ribice/kiss">Kiss</a>.</p>
     {{ end }}
