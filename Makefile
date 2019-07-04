@@ -1,4 +1,6 @@
-SHELL := /usr/bin/env bash
+# Set SHELL to 'strict mode' without using .SHELLFLAGS for max compatibility.
+# See https://fieldnotes.tech/posts/how-to-shell-for-compatible-makefiles/
+SHELL := /usr/bin/env bash -euo pipefail -c
 HUGO := hugo -v
 DATE := $(shell date)
 DOMAIN := fieldnotes.tech
