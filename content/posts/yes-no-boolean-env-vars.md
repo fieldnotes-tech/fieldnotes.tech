@@ -5,6 +5,8 @@ tags:
 - nitpick
 - readability
 - bash
+aliases:
+- /posts/yes-no-boolean-env-vars/
 ---
 
 I use `YES` and `NO` in environment variables to store Boolean values. I have come to the conclusion that this is in some way optimal after trying all the other obvious options and finding that each has readability flaws:

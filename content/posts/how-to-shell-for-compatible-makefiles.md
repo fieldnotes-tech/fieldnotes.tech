@@ -5,6 +5,8 @@ tags:
 - make
 - pragmatism
 - bash
+aliases:
+- /posts/how-to-shell-for-compatible-makefiles/
 ---
 
 The upshot is if you care about maximum compatibility with different versions of GNU Make,

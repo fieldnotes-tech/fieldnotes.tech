@@ -8,6 +8,9 @@ Paginate = 10
 enableRobotsTXT = true
 enableGitInfo = true
 
+[permalinks]
+posts = /:filename
+
 [params.rss]
 includeContent = true
 authorName = "Sam Salisbury"
