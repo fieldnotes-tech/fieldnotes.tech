@@ -30,7 +30,7 @@ Most modern GNU/Linux distros ship with GNU Make 4+,
 In those 10 years, breaking changes were made to the handling of the `SHELL` variable itself,
 and a new special variable called `.SHELLFLAGS` was introduced:
 
-* Make 4+ no longer auto-inserts the `-c` flag for your `SHELL` variable, resulting in very confusing output (see below) if you forget to add it.
+* Make 4+ no longer auto-inserts the `-c` flag for your `SHELL` variable, resulting in very confusing output if you forget to add it.
 * Make 4- does not recognise the `.SHELLFLAGS` variable at all, so we can't use it.
 
 These are all perfectly logical steps
