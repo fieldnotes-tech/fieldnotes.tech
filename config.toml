@@ -9,7 +9,7 @@ enableRobotsTXT = true
 enableGitInfo = true
 
 [permalinks]
-posts = /:filename
+posts = "/:filename"
 
 [params.rss]
 includeContent = true
