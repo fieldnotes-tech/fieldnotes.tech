@@ -14,9 +14,6 @@ SOURCE := $(shell find . -type f -not -path './.git/*' -not -path './public/*')
 
 default: publish
 
-clean-submodules:
-	rm -rf .gitmodules .git/modules/public public
-
 clean:
 	rm -rf public/*
 
@@ -32,28 +29,15 @@ commit: public
 	fi
 
 public: $(SOURCE)
+	rm -rf $@
+	mkdir $@
+	cd $@ && git clone $(PUBLIC_REPO) .
 	rm -rf $@/*
-	echo $(DOMAIN) > $@/CNAME
 	$(HUGO)
+	echo $(DOMAIN) > $@/CNAME
 
-build: clean-workspace submodules
+build: clean-workspace 
 	$(MAKE) public
-
-EXCLUDE := .git/info/exclude
-
-$(EXCLUDE): Makefile
-	[ -f $@ ] || touch $@
-	grep -E $@ '^.gitmodules$$' || echo .gitmodules >> $(EXCLUDE)
-
-submodules:
-	mv $(EXCLUDE) $(EXCLUDE).not
-	git submodule add --force -b master $(PUBLIC_REPO) public
-	git config submodule.public.ignore all
-	git reset public/
-	git submodule update --recursive --remote
-	git reset .gitmodules
-	mv $(EXCLUDE).not $(EXCLUDE)
-
 
 clean-workspace:
 	@if [ $(ALLOW_DIRTY) != YES ] && [ -n "$$(git status -s)" ]; then echo "[ERR] Workspace dirty."; exit 1; fi
