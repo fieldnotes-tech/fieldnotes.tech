@@ -1,5 +1,6 @@
 ---
-title: "About fildnotes.tech"
+title: "About fieldnotes.tech"
+date: 2019-07-19T22:29:00Z
 ---
 
 [![CircleCI](https://circleci.com/gh/fieldnotes-tech/fieldnotes.tech.svg?style=svg)](https://circleci.com/gh/fieldnotes-tech/fieldnotes.tech)
