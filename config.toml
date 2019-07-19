@@ -1,7 +1,7 @@
 baseURL = "https://fieldnotes.tech"
 languageCode = "en-gb"
 title = "fieldnotes.tech"
-theme = "kiss"
+theme = "simple-hugo-theme"
 copyright = "&copy; Sam Salisbury 2019"
 googleAnalytics = "UA-135580398-1"
 Paginate = 10
