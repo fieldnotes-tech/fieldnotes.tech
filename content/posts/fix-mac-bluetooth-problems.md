@@ -1,6 +1,6 @@
 ---
 title: "Fix Macbook Pro Unstable Bluetooth"
-date: 2020-06-16T16:21:00Z
+date: 2020-06-08T16:21:00Z
 tags:
 - mac
 - bluetooth
