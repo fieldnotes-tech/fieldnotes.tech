@@ -8,3 +8,7 @@ otherwise enjoy the site over on https://fieldnotes.tech :)
 
 I am a paragraph. Hi!
 
+## This is another test header! [](#123-456-789)
+
+Yo!
+
